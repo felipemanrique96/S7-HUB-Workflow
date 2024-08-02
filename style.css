@@ -13,7 +13,7 @@ body {
     align-items: center; /* Center horizontally */
     min-height: 100vh; /* Ensure it takes full viewport height */
     margin: 0;
-    background-color: #f5f5f5;
+    background-color: #fff;
 }
 
 header {
@@ -52,7 +52,7 @@ main {
 
 .phase {
     position: relative;
-    background-color: #e0f7fa;
+    background-color: #D6E5EB;
     border-radius: 10px;
     padding: 10px;
     margin: 0 10px;
@@ -68,7 +68,7 @@ main {
 }
 
 .icon {
-    background-color: #009688;
+    background-color: #264653;
     color: white;
     border-radius: 50%;
     width: 30px;
@@ -83,7 +83,7 @@ main {
 .connector {
     width: 50px;
     height: 2px;
-    background-color: #009688;
+    background-color: #D6E5EB;
 }
 
 .description {
