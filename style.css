@@ -44,7 +44,7 @@ main {
     display: flex;
     justify-content: center; /* Center flex items horizontally */
     align-items: center;
-    width: 90%; /* Adjust the width as needed */
+    width: 100%; /* Adjust the width as needed */
     max-width: 1200px; /* Maximum width of the flowchart */
     padding: 20px;
 }
@@ -54,8 +54,8 @@ main {
     background-color: #D6E5EB;
     border-radius: 15px;
     padding: 10px;
-    margin: 0 5px;
-    width: 150px;
+    margin: 0 0;
+    width: 180px;
     text-align: center;
     transition: transform 0.3s, background-color 0.3s;
     cursor: pointer;
