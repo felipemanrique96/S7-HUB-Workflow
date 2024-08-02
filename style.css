@@ -11,6 +11,7 @@ body {
 /* Style the h1 element to be centered at the top */
 h1 {
     text-align: center;
+    display:inline-block;
     margin: 20px 0;
     padding: 10px;
     width: 100%;
