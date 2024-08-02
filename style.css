@@ -24,14 +24,21 @@ header {
     padding: 40px 0; /* Space around the header */
 }
 
+main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 h1{
     font-size: 3rem;
-    font-weight: 200;
+    font-weight: 400;
 }
 
 h3{
     font-size: 1rem;
-    font-weight: 100;
+    font-weight: 300;
 }
     
 
@@ -44,12 +51,6 @@ h3{
     
 }
 
-main {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .flowchart {
     display: flex;
