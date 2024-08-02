@@ -21,7 +21,7 @@ header {
     justify-content: center;
     align-items: center;
     width: 100%; /* Make header span the full width */
-    padding: 20px 0; /* Space around the header */
+    padding: 40px 0; /* Space around the header */
 }
     
 
@@ -31,7 +31,7 @@ header {
     width: 100%;
     position: relative;
     z-index: 1000;
-    font-weight: 300;
+    font-weight: 200;
 }
 
 main {
@@ -88,5 +88,6 @@ main {
 
 .description {
     color: #E76F51;
-    font-size: 1.25 rem;
+    font-size: 1 rem;
+    font-weight: 200;
 }
