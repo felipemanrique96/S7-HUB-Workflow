@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const popupTitle = document.getElementById('popupTitle');
     const popupList = document.getElementById('popupList');
     const popupPhaseNumber = document.getElementById('popupPhaseNumber');
+    const completionRatio = document.getElementById('completionRatio');
+    const completionPercentage = document.getElementById('completionPercentage');
 
     const phaseDetails = {
         'phase1': {
@@ -129,10 +131,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     listItem.textContent = item;
                     listItem.addEventListener('click', function () {
                         this.classList.toggle('checked');
+                        updateCompletionInfo();
                     });
                     popupList.appendChild(listItem);
                 });
                 popupPhaseNumber.textContent = phaseIndex; // Set phase number
+                updateCompletionInfo(); // Initial calculation of completion info
                 popup.classList.add('visible');
                 popup.style.display = 'block';
                 popup.style.top = `${this.getBoundingClientRect().bottom + window.scrollY}px`;
@@ -170,4 +174,15 @@ document.addEventListener('DOMContentLoaded', function () {
             popup.style.display = 'none';
         }, 400); // Wait for transition to complete before hiding
     });
+
+    function updateCompletionInfo() {
+        const items = popupList.querySelectorAll('li');
+        const checkedItems = popupList.querySelectorAll('li.checked');
+        const total = items.length;
+        const completed = checkedItems.length;
+        const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+        completionRatio.textContent = `${completed}/${total}`;
+        completionPercentage.textContent = `${percentage}%`;
+    }
 });
