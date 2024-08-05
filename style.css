@@ -72,7 +72,7 @@ h3 {
     justify-content: center; /* Center flex items horizontally */
     align-items: center;
     flex-grow: 1;
-    max-width: 900px; /* Maximum width of the flowchart */
+    max-width: 1000px; /* Maximum width of the flowchart */
     padding: 20px;
     position: relative;
     background-color: #BBD7E2;
