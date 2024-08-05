@@ -220,12 +220,30 @@ h3 {
     margin-top: 10px;
     z-index: 1000; /* Above other elements */
     user-select: none; /* Prevent text selection */
+    display: flex;
+    align-items: center; /* Center align items vertically */
 }
 
 .popup.visible {
-    display: block;
+    display: flex;
     opacity: 1;
     transform: translate(-50%, 0) scale(1);
+}
+
+.popup-phase-number {
+    font-size: 3rem; /* Large font size for the phase number */
+    color: #457B9D; /* Blue color */
+    margin-right: 10px; /* Space between the phase number and the content */
+    text-align: center; /* Center align text inside */
+    width: 80px; /* Fixed width for the phase number container */
+    flex-shrink: 0; /* Prevent shrinking of the phase number container */
+}
+
+.popup-content {
+    display: flex;
+    flex-direction: column; /* Stack title and list vertically */
+    justify-content: center; /* Center vertically */
+    flex-grow: 1; /* Allow content to grow and take up remaining space */
 }
 
 .popup h3 {

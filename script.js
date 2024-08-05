@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const popup = document.getElementById('popup');
     const popupTitle = document.getElementById('popupTitle');
     const popupList = document.getElementById('popupList');
+    const popupPhaseNumber = document.getElementById('popupPhaseNumber');
 
     const phaseDetails = {
         'phase1': {
@@ -124,6 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                     popupList.appendChild(listItem);
                 });
+                popupPhaseNumber.textContent = phaseIndex; // Set phase number
                 popup.classList.add('visible');
                 popup.style.display = 'block';
                 popup.style.top = `${this.getBoundingClientRect().bottom + window.scrollY}px`;
