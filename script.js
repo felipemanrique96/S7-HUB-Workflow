@@ -15,46 +15,60 @@ document.addEventListener('DOMContentLoaded', function () {
             const phaseId = this.id;
             const phaseIndex = parseInt(phaseId.replace('phase', ''), 10);
 
-            // Determine if the clicked phase is active
+            // Check if the clicked phase is currently active
             const isActive = this.classList.contains('active');
 
             // Deactivate all phases and connectors
             phases.forEach(p => {
-                p.classList.remove('active');
+                if (parseInt(p.id.replace('phase', ''), 10) < phaseIndex) {
+                    p.classList.add('active');
+                } else if (p === this) {
+                    this.classList.toggle('active');
+                } else {
+                    p.classList.remove('active');
+                }
             });
-            Object.values(connectors).forEach(connector => {
+
+            Object.keys(connectors).forEach(key => {
+                const connector = connectors[key];
                 if (connector) {
-                    connector.classList.remove('active');
+                    if (parseInt(key.replace('phase', ''), 10) < phaseIndex) {
+                        connector.classList.add('active');
+                    } else {
+                        connector.classList.remove('active');
+                    }
                 }
             });
-            sideConnectorLeft.classList.remove('active');
-            sideConnectorRight.classList.remove('active');
 
-            if (!isActive) {
-                // Activate the clicked phase and previous phases
-                phases.forEach(p => {
-                    if (parseInt(p.id.replace('phase', ''), 10) <= phaseIndex) {
-                        p.classList.add('active');
-                    }
-                });
-
-                // Activate connectors
-                Object.keys(connectors).forEach(key => {
-                    if (parseInt(key.replace('phase', ''), 10) <= phaseIndex) {
-                        const connector = connectors[key];
-                        if (connector) {
-                            connector.classList.add('active');
-                        }
-                    }
-                });
-
-                // Activate side connectors
-                if (phaseIndex >= 1) {
-                    sideConnectorLeft.classList.add('active');
+            // Handle the last connector specifically when phase5 is toggled
+            const lastConnector = document.querySelector('.connector4');
+            if (phaseIndex === 5 && !isActive) {
+                if (lastConnector) {
+                    lastConnector.classList.add('active');
                 }
-                if (phaseIndex >= 5) {
-                    sideConnectorRight.classList.add('active');
+                sideConnectorRight.classList.add('active');
+            } else if (phaseIndex === 5 && isActive) {
+                if (lastConnector) {
+                    lastConnector.classList.remove('active');
                 }
+                sideConnectorRight.classList.remove('active');
+            } else if (phaseIndex < 5) {
+                if (lastConnector) {
+                    lastConnector.classList.remove('active');
+                }
+            }
+
+            // Handle side connectors
+            if (phaseIndex > 1) {
+                sideConnectorLeft.classList.add('active');
+            } else {
+                sideConnectorLeft.classList.remove('active');
+            }
+
+            if (phaseIndex >= 5) {
+                sideConnectorRight.classList.add('active');
+            } else {
+                sideConnectorRight.classList.remove('active');
             }
         });
     });
