@@ -233,7 +233,7 @@ h3 {
 .popup-phase-number {
     font-size: 3rem; /* Large font size for the phase number */
     color: #457B9D; /* Blue color */
-    margin-right: 10px; /* Space between the phase number and the content */
+    margin: 5px 20px 10px 0px; /* Space between the phase number and the content */
     text-align: center; /* Center align text inside */
     width: 80px; /* Fixed width for the phase number container */
     flex-shrink: 0; /* Prevent shrinking of the phase number container */
