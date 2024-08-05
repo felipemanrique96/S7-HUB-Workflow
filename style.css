@@ -8,8 +8,12 @@
     --color-bg-side-connector-left-active: #F4A261; /* Replace with desired color */
     --color-bg-side-connector-right: #D6E5EB;
     --color-bg-side-connector-right-active: #F4A261; /* Replace with desired color */
-    --color-text-description: #E76F51;
+    --color-text-description: #457B9D; /* Updated to a blue similar color */
     --color-text-description-active: #fff; /* White color for active text */
+    --color-reset-button-bg: #264653;
+    --color-reset-button-bg-hover: #1f3440;
+    --color-checklist-circle: #457B9D; /* Blue border for checklist circle */
+    --color-checklist-circle-checked: #999; /* Gray border for checked checklist circle */
 }
 
 /* Reset margin and padding for all elements */
@@ -180,7 +184,7 @@ h3 {
 
 /* Add these styles for the reset button */
 #resetButton {
-    background-color: #264653;
+    background-color: var(--color-reset-button-bg);
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -195,5 +199,73 @@ h3 {
 }
 
 #resetButton:hover {
-    background-color: #1f3440;
+    background-color: var(--color-reset-button-bg-hover);
+}
+
+/* Popup styling */
+.popup {
+    opacity: 0; /* Start as invisible */
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    position: absolute;
+    top: 100%; /* Position below the flowchart */
+    left: 50%;
+    transform: translate(-50%, 0) scale(0.8);
+    display: none;
+    width: 400px;
+    padding: 20px;
+    background-color: #FFF;
+    border: 1px solid #9DC3D2;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-top: 10px;
+    z-index: 1000; /* Above other elements */
+    user-select: none; /* Prevent text selection */
+}
+
+.popup.visible {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+}
+
+.popup h3 {
+    color: #264653; /* Consistent title color */
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.popup ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.popup ul li {
+    font-size: 1rem;
+    color: var(--color-text-description);
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: color 0.3s, text-decoration 0.3s;
+    display: flex; /* Align circle and text horizontally */
+    align-items: center;
+    line-height: 1.5; /* Align text vertically in the middle */
+}
+
+.popup ul li::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--color-checklist-circle); /* Blue border for checklist circle */
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle; /* Center the circle with text */
+}
+
+.popup ul li.checked::before {
+    border-color: var(--color-checklist-circle-checked); /* Gray border for checked items */
+}
+
+.popup ul li.checked {
+    text-decoration: line-through;
+    color: #999; /* Greyed out text for checked items */
 }

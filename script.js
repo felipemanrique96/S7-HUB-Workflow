@@ -10,6 +10,52 @@ document.addEventListener('DOMContentLoaded', function () {
     const sideConnectorLeft = document.querySelector('.side-connector-left');
     const sideConnectorRight = document.querySelector('.side-connector-right');
     const resetButton = document.getElementById('resetButton');
+    const popup = document.getElementById('popup');
+    const popupTitle = document.getElementById('popupTitle');
+    const popupList = document.getElementById('popupList');
+
+    const phaseDetails = {
+        'phase1': {
+            title: 'INDAGINI',
+            items: [
+                'Conduct thorough research.',
+                'Gather necessary data.',
+                'Consult relevant experts.',
+            ],
+        },
+        'phase2': {
+            title: 'KICK-OFF',
+            items: [
+                'Define project goals.',
+                'Identify stakeholders.',
+                'Outline initial timeline.',
+            ],
+        },
+        'phase3': {
+            title: 'AUTORIZZAZIONI',
+            items: [
+                'Obtain necessary permits.',
+                'Ensure legal compliance.',
+                'Confirm approvals with authorities.',
+            ],
+        },
+        'phase4': {
+            title: 'SVILUPPO',
+            items: [
+                'Develop project plan.',
+                'Allocate resources.',
+                'Establish communication channels.',
+            ],
+        },
+        'phase5': {
+            title: 'DETTAGLIO',
+            items: [
+                'Finalize project details.',
+                'Review project milestones.',
+                'Prepare final documentation.',
+            ],
+        },
+    };
 
     phases.forEach(phase => {
         phase.addEventListener('click', function () {
@@ -65,6 +111,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const phase5 = document.getElementById('phase5');
             sideConnectorRight.classList.toggle('active', phase5.classList.contains('active'));
+
+            // Toggle popup visibility and content
+            if (this.classList.contains('active')) {
+                popupTitle.textContent = phaseDetails[phaseId].title;
+                popupList.innerHTML = ''; // Clear previous list items
+                phaseDetails[phaseId].items.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = item;
+                    listItem.addEventListener('click', function () {
+                        this.classList.toggle('checked');
+                    });
+                    popupList.appendChild(listItem);
+                });
+                popup.classList.add('visible');
+                popup.style.display = 'block';
+                popup.style.top = `${this.getBoundingClientRect().bottom + window.scrollY}px`;
+                popup.style.left = `${this.getBoundingClientRect().left + window.scrollX + this.offsetWidth / 2 - popup.offsetWidth / 2}px`;
+            } else {
+                popup.classList.remove('visible');
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                }, 400); // Wait for transition to complete before hiding
+            }
         });
     });
 
@@ -85,5 +154,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // Remove active class from side connectors
         sideConnectorLeft.classList.remove('active');
         sideConnectorRight.classList.remove('active');
+
+        // Hide the popup
+        popup.classList.remove('visible');
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 400); // Wait for transition to complete before hiding
     });
 });
