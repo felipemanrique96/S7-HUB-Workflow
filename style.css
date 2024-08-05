@@ -54,7 +54,7 @@ h3 {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 80%;
+    max-width: 85%;
     padding: 20px;
     position: relative;
 }
@@ -63,7 +63,7 @@ h3 {
 .title-right {
     color: #E76F51;
     margin: 0 10px;
-    width: 180px; /* Adjust as needed */
+    width: 200px; /* Adjust as needed */
     text-align: center;
 }
 
