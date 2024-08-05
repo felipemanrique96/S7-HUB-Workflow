@@ -5,9 +5,9 @@
     --color-bg-connector: #D6E5EB;
     --color-bg-connector-active: #F4A261;
     --color-bg-side-connector-left: #D6E5EB;
-    --color-bg-side-connector-left-active: #F4A261;
+    --color-bg-side-connector-left-active: #F4A261; /* Replace with desired color */
     --color-bg-side-connector-right: #D6E5EB;
-    --color-bg-side-connector-right-active: #F4A261;
+    --color-bg-side-connector-right-active: #F4A261; /* Replace with desired color */
     --color-text-description: #E76F51;
     --color-text-description-active: #fff; /* White color for active text */
 }
@@ -166,11 +166,11 @@ h3 {
 }
 
 .side-connector-left.active {
-    background-color: var(--color-bg-side-connector-left-active); /* Color for the active left side connector */
+    background-color: var(--color-bg-side-connector-left-active);
 }
 
 .side-connector-right.active {
-    background-color: var(--color-bg-side-connector-right-active); /* Color for the active right side connector */
+    background-color: var(--color-bg-side-connector-right-active);
 }
 
 .description {

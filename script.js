@@ -59,17 +59,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // Handle side connectors
-            if (phaseIndex > 1) {
-                sideConnectorLeft.classList.add('active');
-            } else {
-                sideConnectorLeft.classList.remove('active');
-            }
+            const phase1 = document.getElementById('phase1');
+            sideConnectorLeft.classList.toggle('active', phase1.classList.contains('active'));
 
-            if (phaseIndex >= 5) {
-                sideConnectorRight.classList.add('active');
-            } else {
-                sideConnectorRight.classList.remove('active');
-            }
+            const phase5 = document.getElementById('phase5');
+            sideConnectorRight.classList.toggle('active', phase5.classList.contains('active'));
         });
     });
 });
