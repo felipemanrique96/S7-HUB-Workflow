@@ -19,41 +19,48 @@ document.addEventListener('DOMContentLoaded', function () {
         'phase1': {
             title: 'INDAGINI',
             items: [
-                'Conduct thorough research.',
-                'Gather necessary data.',
-                'Consult relevant experts.',
+                'Definire rilievo e sistema di rilevamento',
+                'Se è un progetto esistente definire nuvola di punti',
+                'Paragonare rilievo con la cartografia comunale',
+                'Far partire le indagini geologiche - Analisi chimica, permeabilità e capacità portante del terreno',
+                'Analisi dei sottoservizi',
+                'Analisi urbanistica',
+                'Definire team di lavoro interno e RTP',
+                'Prevedere le attività da esternalizzare'
             ],
         },
         'phase2': {
             title: 'KICK-OFF',
             items: [
-                'Define project goals.',
-                'Identify stakeholders.',
-                'Outline initial timeline.',
+                'Primo checkup economico',
+                'Check up struttura',
+                'Checkup antincendio',
+                'Definire le prime stratigrafie',
             ],
         },
         'phase3': {
             title: 'AUTORIZZAZIONI',
             items: [
-                'Obtain necessary permits.',
-                'Ensure legal compliance.',
-                'Confirm approvals with authorities.',
+                'Definire gli enti a convocare',
+                'Conferenza dei servizi',
+                'Creare un riassunto dei pareri',
+                'Prevedere le integrazioni richieste',
             ],
         },
         'phase4': {
             title: 'SVILUPPO',
             items: [
-                'Develop project plan.',
-                'Allocate resources.',
-                'Establish communication channels.',
+                'Definire stratigrafie finale',
+                'Comporre i diversi abachi',
+                'Secondo Checkup economico',
             ],
         },
         'phase5': {
             title: 'DETTAGLIO',
             items: [
-                'Finalize project details.',
-                'Review project milestones.',
-                'Prepare final documentation.',
+                'Definire i dettagli tecnologici',
+                'Confermare i preventivi che sono stati richiesti prima',
+                'Check up economico finale',                
             ],
         },
     };

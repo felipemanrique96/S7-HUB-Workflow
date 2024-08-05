@@ -101,7 +101,7 @@ h3 {
     max-width: 1000px; /* Maximum width of the flowchart */
     padding: 20px;
     position: relative;
-    background-color: #9DC3D2;
+    background-color: #aac7d3;
     border-radius: 15px;
     user-select: none; /* Prevent text selection */
 }
@@ -211,7 +211,9 @@ h3 {
     left: 50%;
     transform: translate(-50%, 0) scale(0.8);
     display: none;
-    width: 400px;
+    max-width: 450px; /* Maximum width */
+    min-width: 350px; /* Minimum width to prevent it from being too narrow */
+    width: auto; /* Allow width to adjust based on content */
     padding: 20px;
     background-color: #FFF;
     border: 1px solid #9DC3D2;
@@ -221,7 +223,8 @@ h3 {
     z-index: 1000; /* Above other elements */
     user-select: none; /* Prevent text selection */
     display: flex;
-    align-items: center; /* Center align items vertically */
+    flex-direction: column; /* Adjusts child elements vertically */
+    align-items: flex-start; /* Align items to the start of the flex container */
 }
 
 .popup.visible {
@@ -270,13 +273,14 @@ h3 {
 
 .popup ul li::before {
     content: '';
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+    width: 12px; /* Circle size */
+    height: 12px; /* Circle size */
+    border-radius: 50%; /* Make it round */
     border: 2px solid var(--color-checklist-circle); /* Blue border for checklist circle */
     margin-right: 10px;
     display: inline-block;
     vertical-align: middle; /* Center the circle with text */
+    flex-shrink: 0; /* Prevent shrinking */
 }
 
 .popup ul li.checked::before {
