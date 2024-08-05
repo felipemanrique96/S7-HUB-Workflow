@@ -54,16 +54,22 @@ h3 {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 85%;
+    max-width: 80%;
     padding: 20px;
     position: relative;
 }
 
-.title-left,
-.title-right {
+.title-left {
     color: #E76F51;
     margin: 0 10px;
-    width: 180px; /* Adjust as needed */
+    width: 160px; /* Adjust as needed */
+    text-align: center;
+}
+
+.title-right{
+    color: #E76F51;
+    margin: 0 20px;
+    width: 200px; /* Adjust as needed */
     text-align: center;
 }
 
@@ -75,7 +81,7 @@ h3 {
     max-width: 1000px; /* Maximum width of the flowchart */
     padding: 20px;
     position: relative;
-    background-color: #BBD7E2;
+    background-color: #65A1B8;
     border-radius: 15px;
 }
 
@@ -93,7 +99,7 @@ h3 {
 
 .phase:hover {
     transform: scale(1.1);
-    background-color: #b2ebf2;
+    background-color: #2a9d8f;
 }
 
 .icon {
@@ -112,13 +118,13 @@ h3 {
 .connector {
     width: 50px;
     height: 5px;
-    background-color: #264653; /* Blue color for the connector */
+    background-color: #D6E5EB; /* Blue color for the connector */
 }
 
 .side-connector {
     width: 80px;
     height: 5px;
-    background-color: #264653; /* Blue color for the connector */
+    background-color: #D6E5EB; /* Blue color for the connector */
 }
 
 .description {
