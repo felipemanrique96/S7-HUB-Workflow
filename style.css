@@ -36,6 +36,7 @@ header {
     align-items: center;
     width: 100%; /* Make header span the full width */
     padding: 40px 0; /* Space around the header */
+    position: relative;
 }
 
 main {
@@ -175,4 +176,24 @@ h3 {
 
 .description {
     color: var(--color-text-description);
+}
+
+/* Add these styles for the reset button */
+#resetButton {
+    background-color: #264653;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: background-color 0.3s;
+}
+
+#resetButton:hover {
+    background-color: #1f3440;
 }

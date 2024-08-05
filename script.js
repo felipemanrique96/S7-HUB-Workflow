@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     const sideConnectorLeft = document.querySelector('.side-connector-left');
     const sideConnectorRight = document.querySelector('.side-connector-right');
+    const resetButton = document.getElementById('resetButton');
 
     phases.forEach(phase => {
         phase.addEventListener('click', function () {
@@ -65,5 +66,24 @@ document.addEventListener('DOMContentLoaded', function () {
             const phase5 = document.getElementById('phase5');
             sideConnectorRight.classList.toggle('active', phase5.classList.contains('active'));
         });
+    });
+
+    // Add event listener to reset button
+    resetButton.addEventListener('click', function () {
+        // Remove 'active' class from all phases and connectors
+        phases.forEach(phase => {
+            phase.classList.remove('active');
+        });
+
+        Object.keys(connectors).forEach(key => {
+            const connector = connectors[key];
+            if (connector) {
+                connector.classList.remove('active');
+            }
+        });
+
+        // Remove active class from side connectors
+        sideConnectorLeft.classList.remove('active');
+        sideConnectorRight.classList.remove('active');
     });
 });
