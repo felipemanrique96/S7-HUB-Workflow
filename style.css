@@ -54,8 +54,8 @@ h3 {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 90%;
-    padding: 10px;
+    max-width: 80%;
+    padding: 20px;
     position: relative;
 }
 
@@ -116,7 +116,7 @@ h3 {
 }
 
 .side-connector {
-    width: 70px;
+    width: 80px;
     height: 5px;
     background-color: #264653; /* Blue color for the connector */
 }
