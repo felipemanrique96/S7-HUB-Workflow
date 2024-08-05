@@ -1,3 +1,17 @@
+/* Color Definitions */
+:root {
+    --color-bg-phase: #D6E5EB;
+    --color-bg-phase-active: #F4A261;
+    --color-bg-connector: #D6E5EB;
+    --color-bg-connector-active: #F4A261;
+    --color-bg-side-connector-left: #D6E5EB;
+    --color-bg-side-connector-left-active: #F4A261;
+    --color-bg-side-connector-right: #D6E5EB;
+    --color-bg-side-connector-right-active: #F4A261;
+    --color-text-description: #E76F51;
+    --color-text-description-active: #fff; /* White color for active text */
+}
+
 /* Reset margin and padding for all elements */
 * {
     margin: 0;
@@ -29,6 +43,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 h1 {
@@ -66,7 +81,7 @@ h3 {
     text-align: center;
 }
 
-.title-right{
+.title-right {
     color: #E76F51;
     margin: 0 20px;
     width: 200px; /* Adjust as needed */
@@ -81,13 +96,14 @@ h3 {
     max-width: 1000px; /* Maximum width of the flowchart */
     padding: 20px;
     position: relative;
-    background-color: #65A1B8;
+    background-color: #9DC3D2;
     border-radius: 15px;
+    user-select: none; /* Prevent text selection */
 }
 
 .phase {
     position: relative;
-    background-color: #D6E5EB;
+    background-color: var(--color-bg-phase);
     border-radius: 15px;
     padding: 10px;
     margin: 0;
@@ -95,11 +111,19 @@ h3 {
     text-align: center;
     transition: transform 0.3s, background-color 0.3s;
     cursor: pointer;
+    user-select: none; /* Prevent text selection */
+}
+
+.phase.active {
+    background-color: var(--color-bg-phase-active);
+}
+
+.phase.active .description h3 {
+    color: var(--color-text-description-active); /* White text color when active */
 }
 
 .phase:hover {
     transform: scale(1.1);
-    background-color: #2a9d8f;
 }
 
 .icon {
@@ -117,16 +141,38 @@ h3 {
 
 .connector {
     width: 50px;
-    height: 5px;
-    background-color: #D6E5EB; /* Blue color for the connector */
+    height: 7px;
+    background-color: var(--color-bg-connector); /* Default color for connectors */
+    transition: background-color 0.3s;
+}
+
+.connector.active {
+    background-color: var(--color-bg-connector-active);
 }
 
 .side-connector {
+    height: 7px;
+    transition: background-color 0.3s;
+}
+
+.side-connector-left {
     width: 80px;
-    height: 5px;
-    background-color: #D6E5EB; /* Blue color for the connector */
+    background-color: var(--color-bg-side-connector-left);
+}
+
+.side-connector-right {
+    width: 80px;
+    background-color: var(--color-bg-side-connector-right);
+}
+
+.side-connector-left.active {
+    background-color: var(--color-bg-side-connector-left-active); /* Color for the active left side connector */
+}
+
+.side-connector-right.active {
+    background-color: var(--color-bg-side-connector-right-active); /* Color for the active right side connector */
 }
 
 .description {
-    color: #E76F51;
+    color: var(--color-text-description);
 }
