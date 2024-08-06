@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const saveCommentButton = document.getElementById('saveComment');
     const closeCommentPopupButton = document.getElementById('closeCommentPopup');
     const closePopupButton = document.getElementById('closePopup');
-    const projectProgress = document.getElementById('projectProgress'); // New line
+    const projectProgress = document.getElementById('projectProgress');
 
     let currentCommentItem = null;
     let currentPhaseId = null;
@@ -198,6 +198,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         popupPhaseNumber.textContent = phaseId.replace('phase', ''); // Set phase number
         updateCompletionInfo(phaseId); // Initial calculation of completion info
+
+        // Position the popup below the flowchart
+        const flowchartRect = document.querySelector('.flowchart-wrapper').getBoundingClientRect();
+        popup.style.top = '120%'; // Set distance below flowchart
+        popup.style.left = '50%';
+        popup.style.transform = 'translateX(-50%)';
     }
 
     function openCommentPopup(listItem, phaseId, index) {
@@ -209,9 +215,12 @@ document.addEventListener('DOMContentLoaded', function () {
         commentText.value = comment;
         commentPopup.classList.add('visible');
         commentPopup.style.display = 'block';
+
+        // Position the comment popup to the right of the main popup
         const popupRect = popup.getBoundingClientRect();
-        commentPopup.style.top = `${popupRect.top + window.scrollY}px`;
-        commentPopup.style.left = `${popupRect.right + 10 + window.scrollX}px`;
+        commentPopup.style.top = '150%';
+        commentPopup.style.left = `${popupRect.right + window.innerWidth * 0.01}px`;
+        commentPopup.style.transform = 'translateX(0)';
     }
 
     function closeCommentPopup() {
@@ -269,8 +278,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 populatePopup(phaseId);
                 popup.classList.add('visible');
                 popup.style.display = 'block';
-                popup.style.top = `${this.getBoundingClientRect().bottom + window.scrollY}px`;
-                popup.style.left = `${this.getBoundingClientRect().left + window.scrollX + this.offsetWidth / 2 - popup.offsetWidth / 2}px`;
             } else {
                 popup.classList.remove('visible');
                 setTimeout(() => {
