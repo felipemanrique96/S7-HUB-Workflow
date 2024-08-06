@@ -14,6 +14,14 @@
     --color-reset-button-bg-hover: #1f3440;
     --color-checklist-circle: #457B9D;
     --color-checklist-circle-checked: #999;
+    --color-title: #264653;
+    --color-title-progress: #e76f51;
+    --color-title-left: #E76F51;
+    --color-title-right: #E76F51;
+    --color-flowchart-bg: #aac7d3;
+    --color-popup-bg: #fff;
+    --color-popup-border: #9DC3D2;
+    --color-popup-shadow: rgba(0, 0, 0, 0.2);
 }
 
 /* Reset margin and padding for all elements */
@@ -63,7 +71,7 @@ h3 {
 }
 
 .maintitle {
-    color: #264653;
+    color: var(--color-title);
     text-align: center;
     width: 100%;
     position: relative;
@@ -81,14 +89,14 @@ h3 {
 }
 
 .title-left {
-    color: #E76F51;
+    color: var(--color-title-left);
     margin: 0 10px;
     width: 160px;
     text-align: center;
 }
 
 .title-right {
-    color: #E76F51;
+    color: var(--color-title-right);
     margin: 0 20px;
     width: 200px;
     text-align: center;
@@ -102,7 +110,7 @@ h3 {
     max-width: 1000px;
     padding: 20px;
     position: relative;
-    background-color: #aac7d3;
+    background-color: var(--color-flowchart-bg);
     border-radius: 15px;
     user-select: none;
 }
@@ -140,7 +148,7 @@ h3 {
 }
 
 .icon {
-    background-color: #264653;
+    background-color: var(--color-reset-button-bg);
     color: white;
     border-radius: 50%;
     width: 30px;
@@ -236,9 +244,9 @@ h3 {
     min-width: 350px;
     width: auto;
     padding: 20px;
-    background-color: #FFF;
-    border: 1px solid #9DC3D2;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background-color: var(--color-popup-bg);
+    border: 1px solid var(--color-popup-border);
+    box-shadow: 0 2px 8px var(--color-popup-shadow);
     border-radius: 8px;
     margin-top: 10px;
     z-index: 1000;
@@ -256,7 +264,7 @@ h3 {
 
 .popup-phase-number {
     font-size: 3rem;
-    color: #457B9D;
+    color: var(--color-text-description);
     margin: 5px 20px 10px 0px;
     text-align: center;
     width: 80px;
@@ -271,7 +279,7 @@ h3 {
 }
 
 .popup h3 {
-    color: #264653;
+    color: var(--color-reset-button-bg);
     font-size: 1.5rem;
     margin-bottom: 10px;
 }
@@ -359,9 +367,9 @@ h3 {
     max-width: 300px;
     width: auto;
     padding: 20px;
-    background-color: #FFF;
-    border: 1px solid #9DC3D2;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background-color: var(--color-popup-bg);
+    border: 1px solid var(--color-popup-border);
+    box-shadow: 0 2px 8px var(--color-popup-shadow);
     border-radius: 8px;
     z-index: 1001;
     user-select: none;
@@ -381,14 +389,14 @@ h3 {
     margin-bottom: 10px;
     padding: 10px;
     font-size: 1rem;
-    border: 1px solid #9DC3D2;
+    border: 1px solid var(--color-popup-border);
     border-radius: 4px;
     resize: none;
-    color: #457b9d;
+    color: var(--color-text-description);
 }
 
 .comment-popup textarea::placeholder {
-    color: #457b9d;
+    color: var(--color-text-description);
 }
 
 .comment-actions {
@@ -430,4 +438,14 @@ h3 {
 
 .comment-icon.unfilled {
     background-color: transparent;
+}
+
+/* Add this to style the project progress element */
+#projectProgress {
+    font-size: 1.2rem;
+    font-weight: 450;
+    color: var(--color-title-progress);
+    margin-left: 40px; /* Increased margin for more space */
+    position: relative;
+    top: 10px; /* Move the element 5px down */
 }

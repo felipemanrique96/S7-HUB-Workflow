@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const saveCommentButton = document.getElementById('saveComment');
     const closeCommentPopupButton = document.getElementById('closeCommentPopup');
     const closePopupButton = document.getElementById('closePopup');
+    const projectProgress = document.getElementById('projectProgress'); // New line
 
     let currentCommentItem = null;
     let currentPhaseId = null;
@@ -141,6 +142,27 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
         
+        updateProjectProgress(); // New line to update project progress
+    }
+
+    function updateProjectProgress() {
+        const state = loadState();
+        const phases = ['phase1', 'phase2', 'phase3', 'phase4', 'phase5'];
+        let totalPercentage = 0;
+        let phaseCount = 0;
+
+        phases.forEach(phaseId => {
+            const items = phaseDetails[phaseId].items;
+            const completedItems = items.filter((item, index) => state[phaseId] && state[phaseId][index]);
+            const total = items.length;
+            const completed = completedItems.length;
+            const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
+            totalPercentage += percentage;
+            phaseCount++;
+        });
+
+        const averagePercentage = phaseCount === 0 ? 0 : Math.round(totalPercentage / phaseCount);
+        projectProgress.textContent = `Project Progress: ${averagePercentage}%`;
     }
 
     function populatePopup(phaseId) {
