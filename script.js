@@ -131,12 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 sideConnectorRight.classList.remove('active');
             }
         }
-
-        // Update text color based on progress bar width
-        const descriptions = phase.querySelectorAll('.description, .phase-percentage');
-        descriptions.forEach(description => {
-            description.style.color = percentage > 0 ? 'var(--color-text-description-active)' : 'var(--color-text-description)';
-        });
+        
     }
 
     function populatePopup(phaseId) {

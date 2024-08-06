@@ -161,8 +161,7 @@ h3 {
     font-size: 1rem;
     color: var(--color-text-description);
     font-weight: 500;
-    z-index: 1;
-    mix-blend-mode: difference; /* Change color dynamically based on background */
+    z-index: 1;    
 }
 
 .connector {
@@ -201,8 +200,7 @@ h3 {
 
 .description {
     color: var(--color-text-description);
-    z-index: 1;
-    mix-blend-mode: difference; /* Change color dynamically based on background */
+    z-index: 1;    
 }
 
 /* Add these styles for the reset button */
