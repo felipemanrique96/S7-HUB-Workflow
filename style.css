@@ -67,7 +67,7 @@ h1 {
 }
 
 h3 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 500;
 }
 
@@ -190,12 +190,12 @@ h3 {
 }
 
 .side-connector-left {
-    width: 80px;
+    width: 5vw;
     background-color: var(--color-bg-side-connector-left);
 }
 
 .side-connector-right {
-    width: 80px;
+    width: 5%;
     background-color: var(--color-bg-side-connector-right);
 }
 
@@ -278,7 +278,7 @@ h3 {
 
 .popup h3 {
     color: var(--color-reset-button-bg);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     margin-bottom: 10px;
 }
 
