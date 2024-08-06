@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const phaseDetails = {
         'phase1': {
-            title: 'INDAGINI',
+            title: 'ANALISI',
             items: [
                 'Definire rilievo e sistema di rilevamento',
                 'Se è un progetto esistente definire nuvola di punti',
