@@ -339,10 +339,12 @@ h3 {
 
 .phase-percentage {
     position: absolute;
-    left: 75%;
-    transform: translateY(25%); /* Center the percentage horizontally with the icon */
+    left: 85%; /* Adjust this value to center horizontally with the icon */
+    top: 30%;
+    transform: translate(-50%, -50%); /* Center the percentage */
     font-size: 1rem; /* Match the font size of #completionPercentage */
     color: #457B9D; /* Match the color of #completionPercentage */
     font-weight: 500; /* Match the font weight of #completionPercentage */
 }
+
 

@@ -197,6 +197,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Close popup when clicking outside
+    document.addEventListener('click', function (event) {
+        if (!popup.contains(event.target) && !event.target.closest('.phase')) {
+            popup.classList.remove('visible');
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 400); // Wait for transition to complete before hiding
+        }
+    });
+
     // Add event listener to reset button
     resetButton.addEventListener('click', function () {
         // Remove 'active' class from all phases and connectors
