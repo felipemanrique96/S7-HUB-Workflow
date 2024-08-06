@@ -23,6 +23,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const closePopupButton = document.getElementById('closePopup');
     const projectProgress = document.getElementById('projectProgress');
 
+    const projectIdInput = document.getElementById('projectIdInput');
+    const loadProjectButton = document.getElementById('loadProjectButton');
+    const saveButton = document.getElementById('saveButton');
+
     let currentCommentItem = null;
     let currentPhaseId = null;
     let currentIndex = null;
@@ -75,6 +79,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 'Check up economico finale',
             ],
         },
+    };
+
+    // Simulate a database with project progress data
+    const projectDatabase = {
+        'project1': { phase1: { completed: [true, false, true], comments: ['Comment 1', '', ''] }, /* other phases */ },
+        'project2': { phase1: { completed: [false, true, true], comments: ['', 'Comment 2', 'Comment 3'] }, /* other phases */ }
+        // Add more project data here
     };
 
     function loadState() {
@@ -296,6 +307,39 @@ document.addEventListener('DOMContentLoaded', function () {
             icon.classList.add('unfilled');
         }
     }
+
+    function loadProjectData(projectId) {
+        const projectData = projectDatabase[projectId];
+        if (projectData) {
+            localStorage.setItem('popupState', JSON.stringify(projectData));
+            phases.forEach(phase => {
+                const phaseId = phase.id;
+                updateCompletionInfo(phaseId);
+            });
+        } else {
+            alert('Project ID not found.');
+        }
+    }
+
+    loadProjectButton.addEventListener('click', function () {
+        const projectId = projectIdInput.value.trim();
+        if (projectId) {
+            loadProjectData(projectId);
+        } else {
+            alert('Please enter a Project ID.');
+        }
+    });
+
+    saveButton.addEventListener('click', function () {
+        const projectId = projectIdInput.value.trim();
+        if (projectId) {
+            const currentState = loadState();
+            projectDatabase[projectId] = currentState;
+            alert('Project data saved.');
+        } else {
+            alert('Please enter a Project ID.');
+        }
+    });
 
     // Add event listener to reset button
     resetButton.addEventListener('click', function () {
