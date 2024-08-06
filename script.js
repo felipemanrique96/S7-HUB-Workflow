@@ -77,27 +77,66 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateCompletionInfo(phaseId) {
-        const items = popupList.querySelectorAll('li');
-        const checkedItems = popupList.querySelectorAll('li.checked');
+        const state = loadState();
+        const items = phaseDetails[phaseId].items;
+        const completedItems = items.filter((item, index) => state[phaseId] && state[phaseId][index]);
         const total = items.length;
-        const completed = checkedItems.length;
+        const completed = completedItems.length;
         const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
 
         completionRatio.textContent = `${completed}/${total}`;
         completionPercentage.textContent = `${percentage}%`;
 
-        if (phaseId) {
-            const phase = document.getElementById(phaseId);
-            let percentageElement = phase.querySelector('.phase-percentage');
+        const phase = document.getElementById(phaseId);
+        let percentageElement = phase.querySelector('.phase-percentage');
+        let progressBar = phase.querySelector('.progress-bar');
 
-            if (!percentageElement) {
-                percentageElement = document.createElement('div');
-                percentageElement.classList.add('phase-percentage');
-                phase.appendChild(percentageElement);
-            }
-
-            percentageElement.textContent = `${percentage}%`;
+        if (!percentageElement) {
+            percentageElement = document.createElement('div');
+            percentageElement.classList.add('phase-percentage');
+            phase.appendChild(percentageElement);
         }
+
+        if (!progressBar) {
+            progressBar = document.createElement('div');
+            progressBar.classList.add('progress-bar');
+            phase.appendChild(progressBar);
+        }
+
+        percentageElement.textContent = `${percentage}%`;
+        progressBar.style.width = `${percentage}%`;
+
+        // Update connectors
+        const connector = connectors[phaseId];
+        if (connector) {
+            if (percentage === 100) {
+                connector.classList.add('active');
+            } else {
+                connector.classList.remove('active');
+            }
+        }
+
+        // Update side connectors based on phase 1 and phase 5 completion
+        if (phaseId === 'phase1' && sideConnectorLeft) {
+            if (percentage > 0) {
+                sideConnectorLeft.classList.add('active');
+            } else {
+                sideConnectorLeft.classList.remove('active');
+            }
+        }
+        if (phaseId === 'phase5' && sideConnectorRight) {
+            if (percentage === 100) {
+                sideConnectorRight.classList.add('active');
+            } else {
+                sideConnectorRight.classList.remove('active');
+            }
+        }
+
+        // Update text color based on progress bar width
+        const descriptions = phase.querySelectorAll('.description, .phase-percentage');
+        descriptions.forEach(description => {
+            description.style.color = percentage > 0 ? 'var(--color-text-description-active)' : 'var(--color-text-description)';
+        });
     }
 
     function populatePopup(phaseId) {
@@ -127,62 +166,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     phases.forEach(phase => {
-        phase.addEventListener('click', function () {
+        phase.addEventListener('click', function (event) {
             const phaseId = this.id;
-            const phaseIndex = parseInt(phaseId.replace('phase', ''), 10);
-
-            // Check if the clicked phase is currently active
             const isActive = this.classList.contains('active');
-
-            // Deactivate all phases and connectors
-            phases.forEach(p => {
-                if (parseInt(p.id.replace('phase', ''), 10) < phaseIndex) {
-                    p.classList.add('active');
-                } else if (p === this) {
-                    this.classList.toggle('active');
-                } else {
-                    p.classList.remove('active');
-                }
-            });
-
-            Object.keys(connectors).forEach(key => {
-                const connector = connectors[key];
-                if (connector) {
-                    if (parseInt(key.replace('phase', ''), 10) < phaseIndex) {
-                        connector.classList.add('active');
-                    } else {
-                        connector.classList.remove('active');
-                    }
-                }
-            });
-
-            // Handle the last connector specifically when phase5 is toggled
-            const lastConnector = document.querySelector('.connector4');
-            if (phaseIndex === 5 && !isActive) {
-                if (lastConnector) {
-                    lastConnector.classList.add('active');
-                }
-                sideConnectorRight.classList.add('active');
-            } else if (phaseIndex === 5 && isActive) {
-                if (lastConnector) {
-                    lastConnector.classList.remove('active');
-                }
-                sideConnectorRight.classList.remove('active');
-            } else if (phaseIndex < 5) {
-                if (lastConnector) {
-                    lastConnector.classList.remove('active');
-                }
-            }
-
-            // Handle side connectors
-            const phase1 = document.getElementById('phase1');
-            sideConnectorLeft.classList.toggle('active', phase1.classList.contains('active'));
-
-            const phase5 = document.getElementById('phase5');
-            sideConnectorRight.classList.toggle('active', phase5.classList.contains('active'));
-
             // Toggle popup visibility and content
-            if (this.classList.contains('active')) {
+            if (!isActive) {
+                phases.forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
                 populatePopup(phaseId);
                 popup.classList.add('visible');
                 popup.style.display = 'block';
@@ -234,16 +224,26 @@ document.addEventListener('DOMContentLoaded', function () {
         // Clear the localStorage
         localStorage.removeItem('popupState');
 
-        // Clear completion percentages
+        // Clear completion percentages and progress bars
         phases.forEach(phase => {
             const percentageElement = phase.querySelector('.phase-percentage');
+            const progressBar = phase.querySelector('.progress-bar');
             if (percentageElement) {
-                percentageElement.remove();
+                percentageElement.textContent = '0%';
             }
+            if (progressBar) {
+                progressBar.style.width = '0%';
+            }
+        });
+
+        // Update completion info for all phases
+        phases.forEach(phase => {
+            const phaseId = phase.id;
+            updateCompletionInfo(phaseId);
         });
     });
 
-    // Initialize completion percentages for all phases on load
+    // Initialize completion percentages and progress bars for all phases on load
     phases.forEach(phase => {
         const phaseId = phase.id;
         updateCompletionInfo(phaseId);

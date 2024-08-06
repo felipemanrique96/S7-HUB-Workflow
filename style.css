@@ -5,15 +5,15 @@
     --color-bg-connector: #D6E5EB;
     --color-bg-connector-active: #F4A261;
     --color-bg-side-connector-left: #D6E5EB;
-    --color-bg-side-connector-left-active: #F4A261; /* Replace with desired color */
+    --color-bg-side-connector-left-active: #F4A261;
     --color-bg-side-connector-right: #D6E5EB;
-    --color-bg-side-connector-right-active: #F4A261; /* Replace with desired color */
-    --color-text-description: #457B9D; /* Updated to a blue similar color */
-    --color-text-description-active: #fff; /* White color for active text */
+    --color-bg-side-connector-right-active: #F4A261;
+    --color-text-description: #457B9D;
+    --color-text-description-active: #fff;
     --color-reset-button-bg: #264653;
     --color-reset-button-bg-hover: #1f3440;
-    --color-checklist-circle: #457B9D; /* Blue border for checklist circle */
-    --color-checklist-circle-checked: #999; /* Gray border for checked checklist circle */
+    --color-checklist-circle: #457B9D;
+    --color-checklist-circle-checked: #999;
 }
 
 /* Reset margin and padding for all elements */
@@ -26,10 +26,10 @@
 body {
     font-family: "Barlow", sans-serif;
     display: flex;
-    flex-direction: column; /* Align items vertically */
-    justify-content: flex-start; /* Align items to the top */
-    align-items: center; /* Center horizontally */
-    min-height: 100vh; /* Ensure it takes full viewport height */
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
     margin: 0;
     background-color: #fff;
     user-select: none;
@@ -39,8 +39,8 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%; /* Make header span the full width */
-    padding: 40px 0; /* Space around the header */
+    width: 100%;
+    padding: 40px 0;
     position: relative;
 }
 
@@ -83,28 +83,28 @@ h3 {
 .title-left {
     color: #E76F51;
     margin: 0 10px;
-    width: 160px; /* Adjust as needed */
+    width: 160px;
     text-align: center;
 }
 
 .title-right {
     color: #E76F51;
     margin: 0 20px;
-    width: 200px; /* Adjust as needed */
+    width: 200px;
     text-align: center;
 }
 
 .flowchart {
     display: flex;
-    justify-content: center; /* Center flex items horizontally */
+    justify-content: center;
     align-items: center;
     flex-grow: 1;
-    max-width: 1000px; /* Maximum width of the flowchart */
+    max-width: 1000px;
     padding: 20px;
     position: relative;
     background-color: #aac7d3;
     border-radius: 15px;
-    user-select: none; /* Prevent text selection */
+    user-select: none;
 }
 
 .phase {
@@ -117,19 +117,26 @@ h3 {
     text-align: center;
     transition: transform 0.3s, background-color 0.3s;
     cursor: pointer;
-    user-select: none; /* Prevent text selection */
-}
-
-.phase.active {
-    background-color: var(--color-bg-phase-active);
-}
-
-.phase.active .description h3 {
-    color: var(--color-text-description-active); /* White text color when active */
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    z-index: 0;
 }
 
 .phase:hover {
-    transform: scale(1.1);
+    transform: scale(1.08);
+}
+
+.phase .progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: var(--color-bg-phase-active);
+    z-index: -1;
+    transition: width 0.3s ease;
 }
 
 .icon {
@@ -141,14 +148,27 @@ h3 {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto 10px;
-    font-size: 18px;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.phase-percentage {
+    position: absolute;
+    right: 10px;
+    top: 30%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: var(--color-text-description);
+    font-weight: 500;
+    z-index: 1;
+    mix-blend-mode: difference; /* Change color dynamically based on background */
 }
 
 .connector {
     width: 50px;
     height: 7px;
-    background-color: var(--color-bg-connector); /* Default color for connectors */
+    background-color: var(--color-bg-connector);
     transition: background-color 0.3s;
 }
 
@@ -181,6 +201,8 @@ h3 {
 
 .description {
     color: var(--color-text-description);
+    z-index: 1;
+    mix-blend-mode: difference; /* Change color dynamically based on background */
 }
 
 /* Add these styles for the reset button */
@@ -205,27 +227,27 @@ h3 {
 
 /* Popup styling */
 .popup {
-    opacity: 0; /* Start as invisible */
+    opacity: 0;
     transition: opacity 0.4s ease, transform 0.4s ease;
     position: absolute;
-    top: 100%; /* Position below the flowchart */
+    top: 100%;
     left: 50%;
     transform: translate(-50%, 0) scale(0.8);
     display: none;
-    max-width: 450px; /* Maximum width */
-    min-width: 350px; /* Minimum width to prevent it from being too narrow */
-    width: auto; /* Allow width to adjust based on content */
+    max-width: 450px;
+    min-width: 350px;
+    width: auto;
     padding: 20px;
     background-color: #FFF;
     border: 1px solid #9DC3D2;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     margin-top: 10px;
-    z-index: 1000; /* Above other elements */
-    user-select: none; /* Prevent text selection */
+    z-index: 1000;
+    user-select: none;
     display: flex;
-    flex-direction: column; /* Adjusts child elements vertically */
-    align-items: flex-start; /* Align items to the start of the flex container */
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .popup.visible {
@@ -235,23 +257,23 @@ h3 {
 }
 
 .popup-phase-number {
-    font-size: 3rem; /* Large font size for the phase number */
-    color: #457B9D; /* Blue color */
-    margin: 5px 20px 10px 0px; /* Space between the phase number and the content */
-    text-align: center; /* Center align text inside */
-    width: 80px; /* Fixed width for the phase number container */
-    flex-shrink: 0; /* Prevent shrinking of the phase number container */
+    font-size: 3rem;
+    color: #457B9D;
+    margin: 5px 20px 10px 0px;
+    text-align: center;
+    width: 80px;
+    flex-shrink: 0;
 }
 
 .popup-content {
     display: flex;
-    flex-direction: column; /* Stack title and list vertically */
-    justify-content: center; /* Center vertically */
-    flex-grow: 1; /* Allow content to grow and take up remaining space */
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
 }
 
 .popup h3 {
-    color: #264653; /* Consistent title color */
+    color: #264653;
     font-size: 1.5rem;
     margin-bottom: 10px;
 }
@@ -267,30 +289,30 @@ h3 {
     margin-bottom: 5px;
     cursor: pointer;
     transition: color 0.3s, text-decoration 0.3s;
-    display: flex; /* Align circle and text horizontally */
+    display: flex;
     align-items: center;
-    line-height: 1.5; /* Align text vertically in the middle */
+    line-height: 1.5;
 }
 
 .popup ul li::before {
     content: '';
-    width: 12px; /* Circle size */
-    height: 12px; /* Circle size */
-    border-radius: 50%; /* Make it round */
-    border: 2px solid var(--color-checklist-circle); /* Blue border for checklist circle */
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--color-checklist-circle);
     margin-right: 10px;
     display: inline-block;
-    vertical-align: middle; /* Center the circle with text */
-    flex-shrink: 0; /* Prevent shrinking */
+    vertical-align: middle;
+    flex-shrink: 0;
 }
 
 .popup ul li.checked::before {
-    border-color: var(--color-checklist-circle-checked); /* Gray border for checked items */
+    border-color: var(--color-checklist-circle-checked);
 }
 
 .popup ul li.checked {
     text-decoration: line-through;
-    color: #999; /* Greyed out text for checked items */
+    color: #999;
 }
 
 .completion-info {
@@ -298,7 +320,7 @@ h3 {
     gap: 10px;
     font-size: 1rem;
     color: var(--color-text-description);
-    margin: 15px 5px;    
+    margin: 15px 5px;
 }
 
 .completion-info span {
@@ -307,44 +329,3 @@ h3 {
     padding: 5px;
     font-weight: 500;
 }
-
-.phase {
-    position: relative;
-    background-color: var(--color-bg-phase);
-    border-radius: 15px;
-    padding: 10px;
-    margin: 0;
-    width: 180px;
-    text-align: center;
-    transition: transform 0.3s, background-color 0.3s;
-    cursor: pointer;
-    user-select: none; /* Prevent text selection */
-    display: flex;
-    flex-direction: column; /* Align items vertically */
-    align-items: center; /* Center items horizontally */
-}
-
-.icon {
-    background-color: #264653;
-    color: white;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px; /* Space below the icon */
-    position: relative;
-}
-
-.phase-percentage {
-    position: absolute;
-    left: 85%; /* Adjust this value to center horizontally with the icon */
-    top: 30%;
-    transform: translate(-50%, -50%); /* Center the percentage */
-    font-size: 1rem; /* Match the font size of #completionPercentage */
-    color: #457B9D; /* Match the color of #completionPercentage */
-    font-weight: 500; /* Match the font weight of #completionPercentage */
-}
-
-
