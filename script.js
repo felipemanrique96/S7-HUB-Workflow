@@ -16,6 +16,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const popupPhaseNumber = document.getElementById('popupPhaseNumber');
     const completionRatio = document.getElementById('completionRatio');
     const completionPercentage = document.getElementById('completionPercentage');
+    const commentPopup = document.getElementById('commentPopup');
+    const commentText = document.getElementById('commentText');
+    const saveCommentButton = document.getElementById('saveComment');
+    const closeCommentPopupButton = document.getElementById('closeCommentPopup');
+    const closePopupButton = document.getElementById('closePopup');
+
+    let currentCommentItem = null;
+    let currentPhaseId = null;
+    let currentIndex = null;
 
     const phaseDetails = {
         'phase1': {
@@ -144,6 +153,15 @@ document.addEventListener('DOMContentLoaded', function () {
             if (state[phaseId] && state[phaseId][index]) {
                 listItem.classList.add('checked');
             }
+            const commentIcon = document.createElement('span');
+            commentIcon.classList.add('comment-icon');
+            commentIcon.classList.add(state[phaseId] && state[phaseId].comments && state[phaseId].comments[index] ? 'filled' : 'unfilled');
+            commentIcon.addEventListener('click', function (event) {
+                event.stopPropagation();
+                openCommentPopup(listItem, phaseId, index);
+            });
+            listItem.appendChild(commentIcon);
+
             listItem.addEventListener('click', function () {
                 this.classList.toggle('checked');
                 const currentState = loadState();
@@ -160,12 +178,70 @@ document.addEventListener('DOMContentLoaded', function () {
         updateCompletionInfo(phaseId); // Initial calculation of completion info
     }
 
+    function openCommentPopup(listItem, phaseId, index) {
+        currentCommentItem = listItem;
+        currentPhaseId = phaseId;
+        currentIndex = index;
+        const state = loadState();
+        const comment = state[phaseId] && state[phaseId].comments && state[phaseId].comments[index] ? state[phaseId].comments[index] : '';
+        commentText.value = comment;
+        commentPopup.classList.add('visible');
+        commentPopup.style.display = 'block';
+        const popupRect = popup.getBoundingClientRect();
+        commentPopup.style.top = `${popupRect.top + window.scrollY}px`;
+        commentPopup.style.left = `${popupRect.right + 10 + window.scrollX}px`;
+    }
+
+    function closeCommentPopup() {
+        commentPopup.classList.remove('visible');
+        setTimeout(() => {
+            commentPopup.style.display = 'none';
+        }, 400); // Wait for transition to complete before hiding
+    }
+
+    saveCommentButton.addEventListener('click', function () {
+        if (currentCommentItem) {
+            const state = loadState();
+            if (!state[currentPhaseId]) {
+                state[currentPhaseId] = {};
+            }
+            if (!state[currentPhaseId].comments) {
+                state[currentPhaseId].comments = {};
+            }
+            state[currentPhaseId].comments[currentIndex] = commentText.value;
+            saveState(state);
+            updateCommentIcon(currentCommentItem.querySelector('.comment-icon'), commentText.value);
+            closeCommentPopup();
+        }
+    });
+
+    closeCommentPopupButton.addEventListener('click', function () {
+        closeCommentPopup();
+    });
+
+    closePopupButton.addEventListener('click', function () {
+        popup.classList.remove('visible');
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 400); // Wait for transition to complete before hiding
+    });
+
+    document.addEventListener('click', function (event) {
+        if (!popup.contains(event.target) && !event.target.closest('.phase') && !commentPopup.contains(event.target) && !event.target.classList.contains('comment-icon')) {
+            popup.classList.remove('visible');
+            setTimeout(() => {
+                popup.style.display = 'none';
+                phases.forEach(p => p.classList.remove('active'));
+            }, 400); // Wait for transition to complete before hiding
+        }
+    });
+
     phases.forEach(phase => {
         phase.addEventListener('click', function (event) {
             const phaseId = this.id;
             const isActive = this.classList.contains('active');
             // Toggle popup visibility and content
-            if (!isActive) {
+            if (!isActive || !popup.classList.contains('visible')) {
                 phases.forEach(p => p.classList.remove('active'));
                 this.classList.add('active');
                 populatePopup(phaseId);
@@ -182,15 +258,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Close popup when clicking outside
-    document.addEventListener('click', function (event) {
-        if (!popup.contains(event.target) && !event.target.closest('.phase')) {
-            popup.classList.remove('visible');
-            setTimeout(() => {
-                popup.style.display = 'none';
-            }, 400); // Wait for transition to complete before hiding
+    function updateCommentIcon(icon, comment) {
+        if (comment) {
+            icon.classList.remove('unfilled');
+            icon.classList.add('filled');
+        } else {
+            icon.classList.remove('filled');
+            icon.classList.add('unfilled');
         }
-    });
+    }
 
     // Add event listener to reset button
     resetButton.addEventListener('click', function () {
@@ -215,6 +291,9 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             popup.style.display = 'none';
         }, 400); // Wait for transition to complete before hiding
+
+        // Hide the comment popup
+        closeCommentPopup();
 
         // Clear the localStorage
         localStorage.removeItem('popupState');

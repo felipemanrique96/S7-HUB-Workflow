@@ -63,6 +63,7 @@
         </div>
       
         <div class="popup" id="popup">
+            <span class="close-popup" id="closePopup">×</span>
             <div class="popup-phase-number" id="popupPhaseNumber"></div>
             <div class="completion-info">
                 <span id="completionRatio"></span>
@@ -72,7 +73,15 @@
                 <h3 id="popupTitle"></h3>
                 <ul id="popupList"></ul>
             </div>
-        </div>        
+        </div>
+
+        <div class="comment-popup" id="commentPopup">
+            <span class="close-comment-popup" id="closeCommentPopup">×</span>
+            <textarea id="commentText" placeholder="Enter your comment"></textarea>
+            <div class="comment-actions">
+                <button id="saveComment">Save</button>
+            </div>
+        </div> 
     </main>
     <script src="./script.js"></script>
 </body>
