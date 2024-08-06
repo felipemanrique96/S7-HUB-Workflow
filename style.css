@@ -307,3 +307,42 @@ h3 {
     padding: 5px;
     font-weight: 500;
 }
+
+.phase {
+    position: relative;
+    background-color: var(--color-bg-phase);
+    border-radius: 15px;
+    padding: 10px;
+    margin: 0;
+    width: 180px;
+    text-align: center;
+    transition: transform 0.3s, background-color 0.3s;
+    cursor: pointer;
+    user-select: none; /* Prevent text selection */
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+    align-items: center; /* Center items horizontally */
+}
+
+.icon {
+    background-color: #264653;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; /* Space below the icon */
+    position: relative;
+}
+
+.phase-percentage {
+    position: absolute;
+    left: 75%;
+    transform: translateY(25%); /* Center the percentage horizontally with the icon */
+    font-size: 1rem; /* Match the font size of #completionPercentage */
+    color: #457B9D; /* Match the color of #completionPercentage */
+    font-weight: 500; /* Match the font weight of #completionPercentage */
+}
+

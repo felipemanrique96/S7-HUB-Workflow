@@ -62,10 +62,69 @@ document.addEventListener('DOMContentLoaded', function () {
             items: [
                 'Definire i dettagli tecnologici',
                 'Confermare i preventivi che sono stati richiesti prima',
-                'Check up economico finale',                
+                'Check up economico finale',
             ],
         },
     };
+
+    function loadState() {
+        const state = JSON.parse(localStorage.getItem('popupState')) || {};
+        return state;
+    }
+
+    function saveState(state) {
+        localStorage.setItem('popupState', JSON.stringify(state));
+    }
+
+    function updateCompletionInfo(phaseId) {
+        const items = popupList.querySelectorAll('li');
+        const checkedItems = popupList.querySelectorAll('li.checked');
+        const total = items.length;
+        const completed = checkedItems.length;
+        const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+        completionRatio.textContent = `${completed}/${total}`;
+        completionPercentage.textContent = `${percentage}%`;
+
+        if (phaseId) {
+            const phase = document.getElementById(phaseId);
+            let percentageElement = phase.querySelector('.phase-percentage');
+
+            if (!percentageElement) {
+                percentageElement = document.createElement('div');
+                percentageElement.classList.add('phase-percentage');
+                phase.appendChild(percentageElement);
+            }
+
+            percentageElement.textContent = `${percentage}%`;
+        }
+    }
+
+    function populatePopup(phaseId) {
+        const state = loadState();
+        popupTitle.textContent = phaseDetails[phaseId].title;
+        popupList.innerHTML = ''; // Clear previous list items
+        phaseDetails[phaseId].items.forEach((item, index) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = item;
+            if (state[phaseId] && state[phaseId][index]) {
+                listItem.classList.add('checked');
+            }
+            listItem.addEventListener('click', function () {
+                this.classList.toggle('checked');
+                const currentState = loadState();
+                if (!currentState[phaseId]) {
+                    currentState[phaseId] = {};
+                }
+                currentState[phaseId][index] = this.classList.contains('checked');
+                saveState(currentState);
+                updateCompletionInfo(phaseId);
+            });
+            popupList.appendChild(listItem);
+        });
+        popupPhaseNumber.textContent = phaseId.replace('phase', ''); // Set phase number
+        updateCompletionInfo(phaseId); // Initial calculation of completion info
+    }
 
     phases.forEach(phase => {
         phase.addEventListener('click', function () {
@@ -124,19 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Toggle popup visibility and content
             if (this.classList.contains('active')) {
-                popupTitle.textContent = phaseDetails[phaseId].title;
-                popupList.innerHTML = ''; // Clear previous list items
-                phaseDetails[phaseId].items.forEach(item => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = item;
-                    listItem.addEventListener('click', function () {
-                        this.classList.toggle('checked');
-                        updateCompletionInfo();
-                    });
-                    popupList.appendChild(listItem);
-                });
-                popupPhaseNumber.textContent = phaseIndex; // Set phase number
-                updateCompletionInfo(); // Initial calculation of completion info
+                populatePopup(phaseId);
                 popup.classList.add('visible');
                 popup.style.display = 'block';
                 popup.style.top = `${this.getBoundingClientRect().bottom + window.scrollY}px`;
@@ -173,16 +220,22 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             popup.style.display = 'none';
         }, 400); // Wait for transition to complete before hiding
+
+        // Clear the localStorage
+        localStorage.removeItem('popupState');
+
+        // Clear completion percentages
+        phases.forEach(phase => {
+            const percentageElement = phase.querySelector('.phase-percentage');
+            if (percentageElement) {
+                percentageElement.remove();
+            }
+        });
     });
 
-    function updateCompletionInfo() {
-        const items = popupList.querySelectorAll('li');
-        const checkedItems = popupList.querySelectorAll('li.checked');
-        const total = items.length;
-        const completed = checkedItems.length;
-        const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
-
-        completionRatio.textContent = `${completed}/${total}`;
-        completionPercentage.textContent = `${percentage}%`;
-    }
+    // Initialize completion percentages for all phases on load
+    phases.forEach(phase => {
+        const phaseId = phase.id;
+        updateCompletionInfo(phaseId);
+    });
 });
