@@ -342,7 +342,7 @@ h3 {
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    border: 2px solid grey;
+    border: 1.5px solid grey;
     line-height: 0; /* Ensure the 'x' is vertically centered */
 }
 
