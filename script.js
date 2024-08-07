@@ -81,24 +81,57 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     };
 
-    // Simulate a database with project progress data
-    const projectDatabase = {
-        'project1': { phase1: { completed: [true, false, true], comments: ['Comment 1', '', ''] }, /* other phases */ },
-        'project2': { phase1: { completed: [false, true, true], comments: ['', 'Comment 2', 'Comment 3'] }, /* other phases */ }
-        // Add more project data here
-    };
+    const projectDatabaseUrl = 'https://felipemanrique96.github.io/S7-HUB-Elenco-Progetti/';
 
-    function loadState() {
-        const state = JSON.parse(localStorage.getItem('popupState')) || {};
+    async function fetchProjectList() {
+        try {
+            const response = await fetch(projectDatabaseUrl);
+            const text = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/html');
+            const rows = doc.querySelectorAll('tbody tr');
+            const projects = {};
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const id = cells[0].textContent.trim();
+                const name = cells[1].textContent.trim();
+                projects[id] = name;
+            });
+
+            return projects;
+        } catch (error) {
+            console.error('Error fetching project list:', error);
+            return {};
+        }
+    }
+
+    async function syncProjectList() {
+        const projects = await fetchProjectList();
+        // Clear existing options
+        while (projectIdInput.firstChild) {
+            projectIdInput.removeChild(projectIdInput.firstChild);
+        }
+
+        Object.entries(projects).forEach(([id, name]) => {
+            const option = document.createElement('option');
+            option.value = id;
+            option.textContent = `${id} - ${name}`;
+            projectIdInput.appendChild(option);
+        });
+    }
+
+    function loadState(projectId) {
+        const state = JSON.parse(localStorage.getItem(`popupState-${projectId}`)) || {};
         return state;
     }
 
-    function saveState(state) {
-        localStorage.setItem('popupState', JSON.stringify(state));
+    function saveState(projectId, state) {
+        localStorage.setItem(`popupState-${projectId}`, JSON.stringify(state));
     }
 
     function updateCompletionInfo(phaseId) {
-        const state = loadState();
+        const state = loadState(projectIdInput.value);
         const items = phaseDetails[phaseId].items;
         const completedItems = items.filter((item, index) => state[phaseId] && state[phaseId][index]);
         const total = items.length;
@@ -127,7 +160,6 @@ document.addEventListener('DOMContentLoaded', function () {
         percentageElement.textContent = `${percentage}%`;
         progressBar.style.width = `${percentage}%`;
 
-        // Update connectors
         const connector = connectors[phaseId];
         if (connector) {
             if (percentage === 100) {
@@ -137,7 +169,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        // Update side connectors based on phase 1 and phase 5 completion
         if (phaseId === 'phase1' && sideConnectorLeft) {
             if (percentage > 0) {
                 sideConnectorLeft.classList.add('active');
@@ -153,11 +184,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
         
-        updateProjectProgress(); // New line to update project progress
+        updateProjectProgress(); 
     }
 
     function updateProjectProgress() {
-        const state = loadState();
+        const state = loadState(projectIdInput.value);
         const phases = ['phase1', 'phase2', 'phase3', 'phase4', 'phase5'];
         let totalPercentage = 0;
         let phaseCount = 0;
@@ -177,9 +208,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function populatePopup(phaseId) {
-        const state = loadState();
+        const state = loadState(projectIdInput.value);
         popupTitle.textContent = phaseDetails[phaseId].title;
-        popupList.innerHTML = ''; // Clear previous list items
+        popupList.innerHTML = ''; 
         phaseDetails[phaseId].items.forEach((item, index) => {
             const listItem = document.createElement('li');
             listItem.textContent = item;
@@ -197,22 +228,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
             listItem.addEventListener('click', function () {
                 this.classList.toggle('checked');
-                const currentState = loadState();
+                const currentState = loadState(projectIdInput.value);
                 if (!currentState[phaseId]) {
                     currentState[phaseId] = {};
                 }
                 currentState[phaseId][index] = this.classList.contains('checked');
-                saveState(currentState);
+                saveState(projectIdInput.value, currentState);
                 updateCompletionInfo(phaseId);
             });
             popupList.appendChild(listItem);
         });
-        popupPhaseNumber.textContent = phaseId.replace('phase', ''); // Set phase number
-        updateCompletionInfo(phaseId); // Initial calculation of completion info
+        popupPhaseNumber.textContent = phaseId.replace('phase', ''); 
+        updateCompletionInfo(phaseId);
 
-        // Position the popup below the flowchart
         const flowchartRect = document.querySelector('.flowchart-wrapper').getBoundingClientRect();
-        popup.style.top = '120%'; // Set distance below flowchart
+        popup.style.top = '120%'; 
         popup.style.left = '50%';
         popup.style.transform = 'translateX(-50%)';
     }
@@ -221,13 +251,12 @@ document.addEventListener('DOMContentLoaded', function () {
         currentCommentItem = listItem;
         currentPhaseId = phaseId;
         currentIndex = index;
-        const state = loadState();
+        const state = loadState(projectIdInput.value);
         const comment = state[phaseId] && state[phaseId].comments && state[phaseId].comments[index] ? state[phaseId].comments[index] : '';
         commentText.value = comment;
         commentPopup.classList.add('visible');
         commentPopup.style.display = 'block';
 
-        // Position the comment popup to the right of the main popup
         const popupRect = popup.getBoundingClientRect();
         commentPopup.style.top = '150%';
         commentPopup.style.left = `${popupRect.right + window.innerWidth * 0.01}px`;
@@ -238,12 +267,12 @@ document.addEventListener('DOMContentLoaded', function () {
         commentPopup.classList.remove('visible');
         setTimeout(() => {
             commentPopup.style.display = 'none';
-        }, 400); // Wait for transition to complete before hiding
+        }, 400);
     }
 
     saveCommentButton.addEventListener('click', function () {
         if (currentCommentItem) {
-            const state = loadState();
+            const state = loadState(projectIdInput.value);
             if (!state[currentPhaseId]) {
                 state[currentPhaseId] = {};
             }
@@ -251,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 state[currentPhaseId].comments = {};
             }
             state[currentPhaseId].comments[currentIndex] = commentText.value;
-            saveState(state);
+            saveState(projectIdInput.value, state);
             updateCommentIcon(currentCommentItem.querySelector('.comment-icon'), commentText.value);
             closeCommentPopup();
         }
@@ -265,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function () {
         popup.classList.remove('visible');
         setTimeout(() => {
             popup.style.display = 'none';
-        }, 400); // Wait for transition to complete before hiding
+        }, 400);
     });
 
     document.addEventListener('click', function (event) {
@@ -274,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(() => {
                 popup.style.display = 'none';
                 phases.forEach(p => p.classList.remove('active'));
-            }, 400); // Wait for transition to complete before hiding
+            }, 400);
         }
     });
 
@@ -282,7 +311,6 @@ document.addEventListener('DOMContentLoaded', function () {
         phase.addEventListener('click', function (event) {
             const phaseId = this.id;
             const isActive = this.classList.contains('active');
-            // Toggle popup visibility and content
             if (!isActive || !popup.classList.contains('visible')) {
                 phases.forEach(p => p.classList.remove('active'));
                 this.classList.add('active');
@@ -293,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 popup.classList.remove('visible');
                 setTimeout(() => {
                     popup.style.display = 'none';
-                }, 400); // Wait for transition to complete before hiding
+                }, 400);
             }
         });
     });
@@ -309,9 +337,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function loadProjectData(projectId) {
-        const projectData = projectDatabase[projectId];
+        const projectData = loadState(projectId);
         if (projectData) {
-            localStorage.setItem('popupState', JSON.stringify(projectData));
             phases.forEach(phase => {
                 const phaseId = phase.id;
                 updateCompletionInfo(phaseId);
@@ -333,20 +360,17 @@ document.addEventListener('DOMContentLoaded', function () {
     saveButton.addEventListener('click', function () {
         const projectId = projectIdInput.value.trim();
         if (projectId) {
-            const currentState = loadState();
-            projectDatabase[projectId] = currentState;
+            const currentState = loadState(projectId);
+            saveState(projectId, currentState);
             alert('Project data saved.');
         } else {
             alert('Please enter a Project ID.');
         }
     });
 
-    // Add event listener to reset button
     resetButton.addEventListener('click', function () {
-        // Clear the Project ID input field
         projectIdInput.value = '';
 
-        // Remove 'active' class from all phases and connectors
         phases.forEach(phase => {
             phase.classList.remove('active');
         });
@@ -358,23 +382,18 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Remove active class from side connectors
         sideConnectorLeft.classList.remove('active');
         sideConnectorRight.classList.remove('active');
 
-        // Hide the popup
         popup.classList.remove('visible');
         setTimeout(() => {
             popup.style.display = 'none';
-        }, 400); // Wait for transition to complete before hiding
+        }, 400);
 
-        // Hide the comment popup
         closeCommentPopup();
 
-        // Clear the localStorage
-        localStorage.removeItem('popupState');
+        localStorage.removeItem(`popupState-${projectIdInput.value}`);
 
-        // Clear completion percentages and progress bars
         phases.forEach(phase => {
             const percentageElement = phase.querySelector('.phase-percentage');
             const progressBar = phase.querySelector('.progress-bar');
@@ -386,16 +405,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Update completion info for all phases
         phases.forEach(phase => {
             const phaseId = phase.id;
             updateCompletionInfo(phaseId);
         });
     });
 
-    // Initialize completion percentages and progress bars for all phases on load
     phases.forEach(phase => {
         const phaseId = phase.id;
         updateCompletionInfo(phaseId);
     });
+
+    syncProjectList();
 });
