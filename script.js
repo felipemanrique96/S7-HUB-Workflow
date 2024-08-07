@@ -81,38 +81,18 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     };
 
-    const projectDatabaseUrl = 'https://felipemanrique96.github.io/S7-HUB-Elenco-Progetti/';
-
-    async function fetchProjectList() {
-        try {
-            const response = await fetch(projectDatabaseUrl);
-            const text = await response.text();
-            console.log('Fetched HTML:', text); // Log the fetched HTML
-
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(text, 'text/html');
-            const rows = doc.querySelectorAll('tbody tr');
-            const projects = {};
-
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                if (cells.length >= 2) {
-                    const id = cells[0].textContent.trim();
-                    const name = cells[1].textContent.trim();
-                    projects[id] = name;
-                }
-            });
-
-            console.log('Parsed Projects:', projects); // Log the parsed projects
-            return projects;
-        } catch (error) {
-            console.error('Error fetching project list:', error);
-            return {};
-        }
+    function fetchProjectsFromLocalStorage() {
+        const projects = JSON.parse(localStorage.getItem('projects')) || {};
+        console.log('Projects from Local Storage:', projects); // Log the projects from local storage
+        return projects;
     }
 
-    async function syncProjectList() {
-        const projects = await fetchProjectList();
+    function saveProjectsToLocalStorage(projects) {
+        localStorage.setItem('projects', JSON.stringify(projects));
+    }
+
+    function syncProjectList() {
+        const projects = fetchProjectsFromLocalStorage();
         updateProjectDropdown(projects);
     }
 
