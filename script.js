@@ -354,46 +354,17 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     resetButton.addEventListener('click', function () {
-        projectIdInput.value = '';
-
-        phases.forEach(phase => {
-            phase.classList.remove('active');
-        });
-
-        Object.keys(connectors).forEach(key => {
-            const connector = connectors[key];
-            if (connector) {
-                connector.classList.remove('active');
-            }
-        });
-
-        sideConnectorLeft.classList.remove('active');
-        sideConnectorRight.classList.remove('active');
-
-        popup.classList.remove('visible');
-        setTimeout(() => {
-            popup.style.display = 'none';
-        }, 400);
-
-        closeCommentPopup();
-
-        localStorage.removeItem(`popupState-${projectIdInput.value}`);
-
-        phases.forEach(phase => {
-            const percentageElement = phase.querySelector('.phase-percentage');
-            const progressBar = phase.querySelector('.progress-bar');
-            if (percentageElement) {
-                percentageElement.textContent = '0%';
-            }
-            if (progressBar) {
-                progressBar.style.width = '0%';
-            }
-        });
-
-        phases.forEach(phase => {
-            const phaseId = phase.id;
-            updateCompletionInfo(phaseId);
-        });
+        const projectId = projectIdInput.value.trim();
+        if (projectId) {
+            localStorage.removeItem(`popupState-${projectId}`);
+            phases.forEach(phase => {
+                const phaseId = phase.id;
+                updateCompletionInfo(phaseId);
+            });
+            alert('Project progress has been reset.');
+        } else {
+            alert('Please select a Project ID.');
+        }
     });
 
     phases.forEach(phase => {
