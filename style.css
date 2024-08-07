@@ -251,6 +251,42 @@ h3 {
     background-color: var(--color-reset-button-bg-hover);
 }
 
+#projectIdInput {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    margin-left: 20px;
+    border: 1px solid #e76f51;
+    border-radius: 5px;
+    height: 30px;
+    color: #e76f51;
+    vertical-align: middle;
+    max-height: 200px; /* Adjust height to show only ten items */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+#projectIdInput option {
+    height: 20px; /* Adjust height to fit ten items */
+}
+
+#loadProjectButton {
+    background-color: #e76f51;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px; /* Adjust padding as needed */
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s;
+    height: 30px; /* Match the height of the input field */
+    line-height: 20px; /* Center the text vertically */
+    vertical-align: middle; /* Align button vertically */
+}
+
+#loadProjectButton:hover {
+    background-color: #bb492d;
+}
+
 .popup {
     opacity: 0;
     transition: opacity 0.4s ease, transform 0.4s ease;
@@ -469,41 +505,6 @@ h3 {
     position: relative;
     top: 5px;
 }
-
-#projectIdInput {
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    margin-left: 20px;
-    border: 1px solid #e76f51; /* Set border color */
-    border-radius: 5px;
-    height: 30px; /* Adjust height as needed */
-    color: #e76f51; /* Set text color */
-    vertical-align: middle; /* Align input field vertically */
-}
-
-#projectIdInput::placeholder {
-    color: #e76f51; /* Set placeholder text color */
-}
-
-#loadProjectButton {
-    background-color: #e76f51;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 15px; /* Adjust padding as needed */
-    font-size: 0.8rem;
-    cursor: pointer;
-    margin-left: 10px;
-    transition: background-color 0.3s;
-    height: 30px; /* Match the height of the input field */
-    line-height: 20px; /* Center the text vertically */
-    vertical-align: middle; /* Align button vertically */
-}
-
-#loadProjectButton:hover {
-    background-color: #bb492d;
-}
-
 
 /* Media Queries for Responsiveness */
 @media (max-width: 1200px) {
