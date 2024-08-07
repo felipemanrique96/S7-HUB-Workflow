@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     function fetchProjectsFromLocalStorage() {
-        const projects = JSON.parse(localStorage.getItem('projects')) || {};
+        const projects = JSON.parse(localStorage.getItem('projects')) || [];
         console.log('Projects from Local Storage:', projects); // Log the projects from local storage
         return projects;
     }
@@ -98,11 +98,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateProjectDropdown(projects) {
         projectIdInput.innerHTML = '<option value="">Select a project</option>';
-
-        Object.entries(projects).forEach(([id, name]) => {
+        projects.forEach(project => {
             const option = document.createElement('option');
-            option.value = id;
-            option.textContent = `${id} - ${name}`;
+            option.value = project.id;
+            option.textContent = `${project.id} - ${project.name}`;
             projectIdInput.appendChild(option);
         });
     }
