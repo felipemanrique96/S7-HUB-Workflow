@@ -108,10 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function syncProjectList() {
         const projects = await fetchProjectList();
-        // Clear existing options
-        while (projectIdInput.firstChild) {
-            projectIdInput.removeChild(projectIdInput.firstChild);
-        }
+        projectIdInput.innerHTML = '<option value="">Select a project</option>';
 
         Object.entries(projects).forEach(([id, name]) => {
             const option = document.createElement('option');
@@ -337,8 +334,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function loadProjectData(projectId) {
-        const projectData = loadState(projectId);
-        if (projectData) {
+        const state = loadState(projectId);
+        if (state) {
             phases.forEach(phase => {
                 const phaseId = phase.id;
                 updateCompletionInfo(phaseId);
@@ -353,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (projectId) {
             loadProjectData(projectId);
         } else {
-            alert('Please enter a Project ID.');
+            alert('Please select a Project ID.');
         }
     });
 
@@ -364,7 +361,7 @@ document.addEventListener('DOMContentLoaded', function () {
             saveState(projectId, currentState);
             alert('Project data saved.');
         } else {
-            alert('Please enter a Project ID.');
+            alert('Please select a Project ID.');
         }
     });
 
