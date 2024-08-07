@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const response = await fetch(projectDatabaseUrl);
             const text = await response.text();
+            console.log('Fetched HTML:', text); // Log the fetched HTML
             const parser = new DOMParser();
             const doc = parser.parseFromString(text, 'text/html');
             const rows = doc.querySelectorAll('tbody tr');
@@ -99,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 projects[id] = name;
             });
 
+            console.log('Parsed Projects:', projects); // Log the parsed projects
             return projects;
         } catch (error) {
             console.error('Error fetching project list:', error);
