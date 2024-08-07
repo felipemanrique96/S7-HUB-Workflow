@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const projectIdInput = document.getElementById('projectIdInput');
     const loadProjectButton = document.getElementById('loadProjectButton');
     const saveButton = document.getElementById('saveButton');
+    const projectDatabaseUrl = 'https://felipemanrique96.github.io/S7-HUB-Elenco-Progetti/';
 
     let currentCommentItem = null;
     let currentPhaseId = null;
@@ -81,29 +82,46 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     };
 
-    async function fetchProjectListFromLocalStorage() {
+    async function fetchProjectList() {
         try {
-            const projects = JSON.parse(localStorage.getItem('projects')) || {};
-            console.log('Projects from Local Storage:', projects);
+            const response = await fetch(projectDatabaseUrl);
+            const text = await response.text();
+            console.log('Fetched HTML:', text); // Log the fetched HTML
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/html');
+            const rows = doc.querySelectorAll('tbody tr');
+            const projects = [];
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length >= 2) {
+                    const id = cells[0].textContent.trim();
+                    const name = cells[1].textContent.trim();
+                    projects.push({ id, name });
+                }
+            });
+
+            console.log('Parsed Projects:', projects); // Log the parsed projects
             return projects;
         } catch (error) {
-            console.error('Error fetching project list from local storage:', error);
-            return {};
+            console.error('Error fetching project list:', error);
+            return [];
         }
     }
 
     async function syncProjectList() {
-        const projects = await fetchProjectListFromLocalStorage();
+        const projects = await fetchProjectList();
         updateProjectDropdown(projects);
     }
 
     function updateProjectDropdown(projects) {
         projectIdInput.innerHTML = '<option value="">Select a project</option>';
 
-        Object.entries(projects).forEach(([id, name]) => {
+        projects.forEach(project => {
             const option = document.createElement('option');
-            option.value = id;
-            option.textContent = `${id} - ${name}`;
+            option.value = project.id;
+            option.textContent = `${project.id} - ${project.name}`;
             projectIdInput.appendChild(option);
         });
     }
