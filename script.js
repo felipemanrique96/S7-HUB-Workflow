@@ -428,6 +428,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    
     // Wait for #projectTableBody to be available and then set up the MutationObserver
     waitForElement('#projectTableBody').then(targetNode => {
         const config = { childList: true, subtree: true };
