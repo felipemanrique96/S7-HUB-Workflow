@@ -346,11 +346,7 @@ document.addEventListener('DOMContentLoaded', function () {
     saveButton.addEventListener('click', function () {
         const projectId = projectIdInput.value.trim();
         if (projectId) {
-            const currentState = {};
-            phases.forEach(phase => {
-                const phaseId = phase.id;
-                currentState[phaseId] = loadState(phaseId);
-            });
+            const currentState = loadState(projectId);
             saveState(projectId, currentState);
             alert('Project data saved.');
         } else {
@@ -428,7 +424,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    
     // Wait for #projectTableBody to be available and then set up the MutationObserver
     waitForElement('#projectTableBody').then(targetNode => {
         const config = { childList: true, subtree: true };
