@@ -373,6 +373,7 @@ document.addEventListener('DOMContentLoaded', function () {
             phases.forEach(phase => {
                 updateCompletionInfo(phase.id);
             });
+            updateProjectProgress(); // Ensure the overall project progress is updated
             alert('Project progress has been reset.');
         } else {
             alert('Please select a Project ID.');
