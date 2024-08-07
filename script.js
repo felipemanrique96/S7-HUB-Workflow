@@ -117,6 +117,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateCompletionInfo(phaseId) {
         const state = loadState(projectIdInput.value);
+
+        if (!phaseDetails[phaseId]) {
+            console.error(`Invalid phaseId: ${phaseId}`);
+            return;
+        }
+
         const items = phaseDetails[phaseId].items;
         const completedItems = items.filter((item, index) => state[phaseId] && state[phaseId][index]);
         const total = items.length;
