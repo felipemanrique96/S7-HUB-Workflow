@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     function fetchProjectsFromLocalStorage() {
-        const projects = JSON.parse(localStorage.getItem('projects')) || [];
+        const projects = JSON.parse(localStorage.getItem('projects')) || {};
         console.log('Projects from Local Storage:', projects); // Log the projects from local storage
         return projects;
     }
@@ -93,17 +93,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function syncProjectList() {
         const projects = fetchProjectsFromLocalStorage();
-        console.log('Projects to be populated:', projects); // Log the projects to be populated
         updateProjectDropdown(projects);
     }
 
     function updateProjectDropdown(projects) {
         projectIdInput.innerHTML = '<option value="">Select a project</option>';
 
-        projects.forEach(project => {
+        Object.entries(projects).forEach(([id, name]) => {
             const option = document.createElement('option');
-            option.value = project.id;
-            option.textContent = `${project.id} - ${project.name}`;
+            option.value = id;
+            option.textContent = `${id} - ${name}`;
             projectIdInput.appendChild(option);
         });
     }
@@ -347,7 +346,11 @@ document.addEventListener('DOMContentLoaded', function () {
     saveButton.addEventListener('click', function () {
         const projectId = projectIdInput.value.trim();
         if (projectId) {
-            const currentState = loadState(projectId);
+            const currentState = {};
+            phases.forEach(phase => {
+                const phaseId = phase.id;
+                currentState[phaseId] = loadState(phaseId);
+            });
             saveState(projectId, currentState);
             alert('Project data saved.');
         } else {
