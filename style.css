@@ -179,12 +179,12 @@ h3 {
 .connector {
     width: 4vw;
     height: 0.5vw;
-    background-color: var(--color-bg-connector);
+    background-color: var (--color-bg-connector);
     transition: background-color 0.3s;
 }
 
 .connector.active {
-    background-color: var(--color-bg-connector-active);
+    background-color: var (--color-bg-connector-active);
 }
 
 .side-connector {
