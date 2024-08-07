@@ -112,6 +112,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function syncProjectList() {
         const projects = await fetchProjectList();
+        updateProjectDropdown(projects);
+    }
+
+    function updateProjectDropdown(projects) {
         projectIdInput.innerHTML = '<option value="">Select a project</option>';
 
         Object.entries(projects).forEach(([id, name]) => {
@@ -418,4 +422,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     syncProjectList();
+
+    // Observe changes in the project table and update the dropdown
+    const targetNode = document.querySelector('#projectTableBody');
+    const config = { childList: true, subtree: true };
+
+    const callback = function(mutationsList, observer) {
+        for (let mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+                syncProjectList(); // Re-fetch and update the project list
+            }
+        }
+    };
+
+    const observer = new MutationObserver(callback);
+    observer.observe(targetNode, config);
 });
