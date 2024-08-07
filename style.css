@@ -260,12 +260,16 @@ h3 {
     height: 30px;
     color: #e76f51;
     vertical-align: middle;
-    max-height: 200px; /* Adjust height to show only ten items */
-    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 #projectIdInput option {
-    height: 20px; /* Adjust height to fit ten items */
+    height: 20px;
+}
+
+.select-wrapper {
+    max-height: 200px;
+    overflow-y: auto;
+    width: fit-content;
 }
 
 #loadProjectButton {
