@@ -95,9 +95,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
             rows.forEach(row => {
                 const cells = row.querySelectorAll('td');
-                const id = cells[0].textContent.trim();
-                const name = cells[1].textContent.trim();
-                projects[id] = name;
+                if (cells.length >= 2) {
+                    const id = cells[0].textContent.trim();
+                    const name = cells[1].textContent.trim();
+                    projects[id] = name;
+                }
             });
 
             console.log('Parsed Projects:', projects); // Log the parsed projects
