@@ -343,6 +343,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add event listener to reset button
     resetButton.addEventListener('click', function () {
+        // Clear the Project ID input field
+        projectIdInput.value = '';
+
         // Remove 'active' class from all phases and connectors
         phases.forEach(phase => {
             phase.classList.remove('active');
