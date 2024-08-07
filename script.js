@@ -104,8 +104,6 @@ document.addEventListener('DOMContentLoaded', function () {
             option.textContent = `${project.id} - ${project.name}`;
             projectIdInput.appendChild(option);
         });
-        // Apply wrapper class to limit dropdown height
-        projectIdInput.parentElement.classList.add('select-wrapper');
     }
 
     function loadState(projectId) {
@@ -358,7 +356,13 @@ document.addEventListener('DOMContentLoaded', function () {
     resetButton.addEventListener('click', function () {
         const projectId = projectIdInput.value.trim();
         if (projectId) {
-            const state = {};
+            const state = loadState(projectId);
+            const phases = ['phase1', 'phase2', 'phase3', 'phase4', 'phase5'];
+            phases.forEach(phaseId => {
+                if (state[phaseId]) {
+                    state[phaseId] = {};
+                }
+            });
             saveState(projectId, state);
             phases.forEach(phase => {
                 updateCompletionInfo(phase.id);
