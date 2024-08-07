@@ -423,18 +423,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
     syncProjectList();
 
-    // Observe changes in the project table and update the dropdown
-    const targetNode = document.querySelector('#projectTableBody');
-    const config = { childList: true, subtree: true };
-
-    const callback = function(mutationsList, observer) {
-        for (let mutation of mutationsList) {
-            if (mutation.type === 'childList') {
-                syncProjectList(); // Re-fetch and update the project list
+    function waitForElement(selector) {
+        return new Promise(resolve => {
+            if (document.querySelector(selector)) {
+                return resolve(document.querySelector(selector));
             }
-        }
-    };
 
-    const observer = new MutationObserver(callback);
-    observer.observe(targetNode, config);
+            const observer = new MutationObserver((mutations) => {
+                if (document.querySelector(selector)) {
+                    resolve(document.querySelector(selector));
+                    observer.disconnect();
+                }
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        });
+    }
+
+    // Wait for #projectTableBody to be available and then set up the MutationObserver
+    waitForElement('#projectTableBody').then(targetNode => {
+        const config = { childList: true, subtree: true };
+
+        const callback = function(mutationsList, observer) {
+            for (let mutation of mutationsList) {
+                if (mutation.type === 'childList') {
+                    syncProjectList(); // Re-fetch and update the project list
+                }
+            }
+        };
+
+        const observer = new MutationObserver(callback);
+        observer.observe(targetNode, config);
+    });
 });
