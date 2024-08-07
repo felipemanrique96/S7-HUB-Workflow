@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const projectIdInput = document.getElementById('projectIdInput');
     const loadProjectButton = document.getElementById('loadProjectButton');
     const saveButton = document.getElementById('saveButton');
-    const projectDatabaseUrl = 'https://felipemanrique96.github.io/S7-HUB-Elenco-Progetti/';
 
     let currentCommentItem = null;
     let currentPhaseId = null;
@@ -82,6 +81,8 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     };
 
+    const projectDatabaseUrl = 'https://felipemanrique96.github.io/S7-HUB-Elenco-Progetti/';
+
     async function fetchProjectList() {
         try {
             const response = await fetch(projectDatabaseUrl);
@@ -91,14 +92,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const parser = new DOMParser();
             const doc = parser.parseFromString(text, 'text/html');
             const rows = doc.querySelectorAll('tbody tr');
-            const projects = [];
+            const projects = {};
 
             rows.forEach(row => {
                 const cells = row.querySelectorAll('td');
                 if (cells.length >= 2) {
                     const id = cells[0].textContent.trim();
                     const name = cells[1].textContent.trim();
-                    projects.push({ id, name });
+                    projects[id] = name;
                 }
             });
 
@@ -106,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return projects;
         } catch (error) {
             console.error('Error fetching project list:', error);
-            return [];
+            return {};
         }
     }
 
@@ -118,10 +119,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateProjectDropdown(projects) {
         projectIdInput.innerHTML = '<option value="">Select a project</option>';
 
-        projects.forEach(project => {
+        Object.entries(projects).forEach(([id, name]) => {
             const option = document.createElement('option');
-            option.value = project.id;
-            option.textContent = `${project.id} - ${project.name}`;
+            option.value = id;
+            option.textContent = `${id} - ${name}`;
             projectIdInput.appendChild(option);
         });
     }
